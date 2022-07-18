@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class App {
+
     public static void main(String[] args) throws Exception {
       
         // Connect HTTP and fetch 250 best films
@@ -29,8 +30,21 @@ public class App {
             System.out.println("Rank: " + film.get("rank"));
             System.out.println("Title: " + film.get("fullTitle"));
             System.out.println("Image: " + film.get("image"));
-            System.out.println("Rating: " + film.get("imDbRating"));
+            System.out.print("Rate: " + film.get("imDbRating") + " - ");
+
+            int totalStars = Math.round( Float.parseFloat(film.get("imDbRating")));
+            String goldStar = new String(Character.toChars(0x2b50));
+            String blackStar = new String(Character.toChars(0x2605));
+            String glowingStar = new String(Character.toChars(0x1f31f));
+            for(int i=0; i <= totalStars; i++){
+                System.out.print(glowingStar);
+            }
+            for(int i=0 ; i < 10 - totalStars; i++){
+                System.out.print(blackStar);
+            }
             System.out.println();
+            System.out.println();
+          
         }
     }
 }
