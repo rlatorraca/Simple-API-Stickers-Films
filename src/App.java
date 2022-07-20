@@ -14,7 +14,7 @@ public class App {
       
         // Connect HTTP and fetch 250 best films
 
-        String url = "https://imdb-api.com/en/API/Top250Movies/k_8j0gdazj";
+        String url = "https://imdb-api.com/en/API/Top250Movies/"+Password.getPassword();
         URI address = URI.create(url);
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(address).GET().build();
