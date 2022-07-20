@@ -39,40 +39,31 @@ public class App {
             int positionToDelete = 0;
             int imageURLLength = imageURL.length();
 
-            
-            
-            
             for (int j = 0 ; j < imageURL.length() ; j++){
-                if (imageURL.charAt(j) == 'Y' && (imageURL.charAt(j+1) == '2' || imageURL.charAt(j+1) == '3' || imageURL.charAt(j+1) == '@')) {
-                    positionToDelete  = j+1;
-                }
-
-                if (imageURL.charAt(j) == '@' && imageURL.charAt(j+1) == '@') {
-                    positionToDelete  = j+1;
-                }
-
-                if (imageURL.charAt(j) == '@' && imageURL.charAt(j+1) == '.'){
+                if (imageURL.charAt(j) == '.' && imageURL.charAt(j+1) == '_'){
                     positionToDelete  = j;
                 }
                 
-            }    
-        
+            }
 
-            imageURL = sb.replace(positionToDelete+1, imageURLLength, ".jpg").toString();
+            imageURL = sb.replace(positionToDelete+1, imageURLLength, "jpg").toString();
 
             System.out.println("Title: " + title);
             System.out.println("Image: " + imageURL);
             System.out.print("Rate: " + film.get("imDbRating") + " - ");
            
 
-            int totalStars = Math.round( Float.parseFloat(film.get("imDbRating")));
-            //String goldStar = new String(Character.toChars(0x2b50));
+            float totalStars = Float.parseFloat(film.get("imDbRating"));
+            String goldStar = new String(Character.toChars(0x2b50));
             String blackStar = new String(Character.toChars(0x2605));
             String glowingStar = new String(Character.toChars(0x1f31f));
-            for(int i=0; i <= totalStars; i++){
-                System.out.print(glowingStar);
+            int totalStarsFor = Math.round(totalStars);
+            for(int i=0; i <= totalStarsFor; i++){
+                    System.out.print(glowingStar);
+
             }
-            for(int i=0 ; i < 10 - totalStars; i++){
+
+            for(int i=0 ; i < 10 - totalStarsFor; i++){
                 System.out.print(blackStar);
             }
             System.out.println("\n");

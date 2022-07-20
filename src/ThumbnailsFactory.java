@@ -41,7 +41,6 @@ public class ThumbnailsFactory {
         File outputFile = new File("output/", thumbnailName);
         outputFile.mkdirs();
         ImageIO.write(newImage, "png", outputFile);
-        ImageIO.flush();
     }
 
 }
