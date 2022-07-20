@@ -29,25 +29,27 @@ public class App {
         //show and manipulating the data
 
         for (Map<String,String> film : filmsList) {
-            String title = film.get("fullTitle");
-            
+
+
             String imageURL = film.get("image");
+            imageURL = film.get("image").replaceAll("(@+)(.*).jpg$|(.)(_*).jpg$", "$1.jpg");
             System.out.println("Rank: " + film.get("rank"));
             
-            StringBuffer sb = new StringBuffer();
-            sb.append(imageURL);
-            int positionToDelete = 0;
-            int imageURLLength = imageURL.length();
+//            StringBuffer sb = new StringBuffer();
+//            sb.append(imageURL);
+//            int positionToDelete = 0;
+//            int imageURLLength = imageURL.length();
+//
+//            for (int j = 0 ; j < imageURL.length() ; j++){
+//                if (imageURL.charAt(j) == '.' && imageURL.charAt(j+1) == '_'){
+//                    positionToDelete  = j;
+//                }
+//
+//            }
+//
+//            imageURL = sb.replace(positionToDelete+1, imageURLLength, "jpg").toString();
 
-            for (int j = 0 ; j < imageURL.length() ; j++){
-                if (imageURL.charAt(j) == '.' && imageURL.charAt(j+1) == '_'){
-                    positionToDelete  = j;
-                }
-                
-            }
-
-            imageURL = sb.replace(positionToDelete+1, imageURLLength, "jpg").toString();
-
+            String title = film.get("fullTitle");
             System.out.println("Title: " + title);
             System.out.println("Image: " + imageURL);
             System.out.print("Rate: " + film.get("imDbRating") + " - ");
