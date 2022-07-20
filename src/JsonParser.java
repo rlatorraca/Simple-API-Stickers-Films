@@ -7,13 +7,12 @@ import java.util.regex.Pattern;
 
 public class JsonParser {
     private static final Pattern REGEX_ITEMS = Pattern.compile(".*\\[(.+)\\].*"); // fetch a list that exist between square brackets
-    private static final Pattern REGEX_ATRIBUTES_JSON = Pattern.compile("\"(.+?)\":\"(.*?)\""); // fetch "ATRIBUTE": "VALUE"in json
+    private static final Pattern REGEX_ATTRIBUTE_JSON = Pattern.compile("\"(.+?)\":\"(.*?)\""); // fetch "ATTRIBUTE": "VALUE"in json
     
     public List<Map<String, String>> parse(String json) {
 
         Matcher matcher = REGEX_ITEMS.matcher(json);
         if (!matcher.find()) {
-
             throw new IllegalArgumentException("No items found.");
         }
 
@@ -25,7 +24,7 @@ public class JsonParser {
 
             Map<String, String> atributesItem = new HashMap<>();
 
-            Matcher matcherAtributesJson = REGEX_ATRIBUTES_JSON.matcher(item);
+            Matcher matcherAtributesJson = REGEX_ATTRIBUTE_JSON.matcher(item);
             while (matcherAtributesJson.find()) {
                 String atribute = matcherAtributesJson.group(1);
                 String value = matcherAtributesJson.group(2);

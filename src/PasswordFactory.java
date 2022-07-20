@@ -11,6 +11,13 @@ public class PasswordFactory {
         return properties.getProperty("password");
     }
 
+    static String getApiKey() throws IOException {
+        Properties properties = new Properties();
+        FileInputStream inputStream = new FileInputStream("src/conf/conf.properties");
+        properties.load(inputStream);
+        return properties.getProperty("api_key");
+    }
+
 
 
 }

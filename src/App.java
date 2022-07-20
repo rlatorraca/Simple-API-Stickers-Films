@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -11,76 +13,47 @@ import java.util.Map;
 public class App {
 
     public static void main(String[] args) throws Exception {
-      
-        // Connect HTTP and fetch 250 best films
 
-        String url = "https://imdb-api.com/en/API/Top250Movies/"+ PasswordFactory.getPassword();
-        URI address = URI.create(url);
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder(address).GET().build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        String responseBody = response.body();
-        
+        String option = "0";
+        do{
+            BufferedReader my_reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Enter [Imdb] , [NASA] or [Exit] : ");
+            option = my_reader.readLine().toLowerCase();
+            // Connect HTTP and fetch 250 best films
 
-        // parse just interested data [title, image, rate]
-        JsonParser parser = new JsonParser();
-        List<Map<String, String>> filmsList = parser.parse(responseBody);
-        
-        //show and manipulating the data
+            String url = "";
+            ExtractContentGeneric extractor = null ;
 
-        for (Map<String,String> film : filmsList) {
+            // show and manipulating data
+            if(option.equalsIgnoreCase("imdb")){
+                url = "https://imdb-api.com/en/API/Top250Movies/"+ PasswordFactory.getPassword();
+                extractor = new ExtractContentIMDb() ;
+            } else if(option.equalsIgnoreCase("nasa")){
+                url = "https://api.nasa.gov/planetary/apod?api_key="+ PasswordFactory.getApiKey() +"&start_date=2022-06-12&end_date=2022-06-14";
+                extractor = new ExtractContentNASA() ;
+            } else {
+                continue;
+            }
 
+            String json = new AppHttpClient().getClientBody(url);
 
-            String imageURL = film.get("image");
-            imageURL = film.get("image").replaceAll("(@+)(.*).jpg$|(.)(_*).jpg$", "$1.jpg");
-            System.out.println("Rank: " + film.get("rank"));
-            
-//            StringBuffer sb = new StringBuffer();
-//            sb.append(imageURL);
-//            int positionToDelete = 0;
-//            int imageURLLength = imageURL.length();
-//
-//            for (int j = 0 ; j < imageURL.length() ; j++){
-//                if (imageURL.charAt(j) == '.' && imageURL.charAt(j+1) == '_'){
-//                    positionToDelete  = j;
-//                }
-//
-//            }
-//
-//            imageURL = sb.replace(positionToDelete+1, imageURLLength, "jpg").toString();
+            List<Content> contestList = extractor.extractContent(json);
 
-            String title = film.get("fullTitle");
-            System.out.println("Title: " + title);
-            System.out.println("Image: " + imageURL);
-            System.out.print("Rate: " + film.get("imDbRating") + " - ");
-           
+            for (Content c : contestList) {
 
-            float totalStars = Float.parseFloat(film.get("imDbRating"));
-            String goldStar = new String(Character.toChars(0x2b50));
-            String blackStar = new String(Character.toChars(0x2605));
-            String glowingStar = new String(Character.toChars(0x1f31f));
-            int totalStarsFor = Math.round(totalStars);
-            for(int i=0; i <= totalStarsFor; i++){
-                    System.out.print(glowingStar);
+                Content content = c;
+
+                // generate thumbnails using the content image existing on IMBd server
+                String thumbName = c.getTitle() + ".png";
+                ThumbnailsFactory newThumb = new ThumbnailsFactory();
+
+                InputStream urlInputStream = new URL(c.getUrlImage()).openStream();
+
+                newThumb.factory(urlInputStream, thumbName);
+                urlInputStream.close();
 
             }
 
-            for(int i=0 ; i < 10 - totalStarsFor; i++){
-                System.out.print(blackStar);
-            }
-            System.out.println("\n");
-            
-
-            // generate thumbnails using the film image existing on IMBd server
-            String thumbName = title + ".png";
-            ThumbnailsFactory newThumb = new ThumbnailsFactory();
-
-            InputStream urlInputStream = new URL(imageURL).openStream();
-            
-
-            newThumb.factory(urlInputStream, thumbName);
-            urlInputStream.close();
-          
-        }
+        } while(!option.equalsIgnoreCase("exit"));
     }
 }
