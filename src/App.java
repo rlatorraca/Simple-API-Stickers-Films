@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -32,8 +33,8 @@ public class App {
                 url = "https://api.nasa.gov/planetary/apod?api_key="+ PasswordFactory.getApiKey() +"&start_date=2022-06-12&end_date=2022-07-14";
                 extractor = new ExtractContentNASA() ;
             } else if(option.equalsIgnoreCase("l")){
-                url = "https://localhost:8080/";
-                extractor = new ExtractContentNASA() ;
+                url = "http://localhost:8080/languages";
+                extractor = new ExtractContentProgramingLanguages() ;
             }else {
                 continue;
             }

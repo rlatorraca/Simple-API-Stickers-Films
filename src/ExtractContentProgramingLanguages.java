@@ -15,11 +15,13 @@ public class ExtractContentProgramingLanguages implements ExtractContentGeneric 
         for (Map<String, String> attribute : attributesList) {
             String imageURL = attribute.get("image");
             String title = attribute.get("title");
-            ContentNASA content = new ContentNASA(title, imageURL);
+            String ranking = attribute.get("ranking");
+            ContentLanguage content = new ContentLanguage(title, imageURL,ranking);
             contentList.add(content);
 
             System.out.println("Title: " + title);
             System.out.println("Image: " + imageURL);
+            System.out.println("Ranking: " + ranking);
         }
         return contentList;
     }
