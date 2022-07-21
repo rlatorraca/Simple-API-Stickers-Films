@@ -17,7 +17,7 @@ public class App {
         String option = "0";
         do{
             BufferedReader my_reader = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Enter [Imdb] , [NASA] or [Exit] : ");
+            System.out.println("Enter [I]mdb] , [N]ASA], [L]anguages programing or [E]xit] : ");
             option = my_reader.readLine().toLowerCase();
             // Connect HTTP and fetch 250 best films
 
@@ -25,13 +25,16 @@ public class App {
             ExtractContentGeneric extractor = null ;
 
             // show and manipulating data
-            if(option.equalsIgnoreCase("imdb")){
+            if(option.equalsIgnoreCase("i")){
                 url = "https://imdb-api.com/en/API/Top250Movies/"+ PasswordFactory.getPassword();
                 extractor = new ExtractContentIMDb() ;
-            } else if(option.equalsIgnoreCase("nasa")){
-                url = "https://api.nasa.gov/planetary/apod?api_key="+ PasswordFactory.getApiKey() +"&start_date=2022-06-12&end_date=2022-06-14";
+            } else if(option.equalsIgnoreCase("n")){
+                url = "https://api.nasa.gov/planetary/apod?api_key="+ PasswordFactory.getApiKey() +"&start_date=2022-06-12&end_date=2022-07-14";
                 extractor = new ExtractContentNASA() ;
-            } else {
+            } else if(option.equalsIgnoreCase("l")){
+                url = "https://localhost:8080/";
+                extractor = new ExtractContentNASA() ;
+            }else {
                 continue;
             }
 
@@ -54,6 +57,6 @@ public class App {
 
             }
 
-        } while(!option.equalsIgnoreCase("exit"));
+        } while(!option.equalsIgnoreCase("e"));
     }
 }

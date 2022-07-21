@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ExtractContentNASA implements ExtractContentGeneric {
+public class ExtractContentProgramingLanguages implements ExtractContentGeneric {
     @Override
     public List<Content> extractContent(String json) {
         // parse just interested data [title, image, rate]
@@ -13,7 +13,7 @@ public class ExtractContentNASA implements ExtractContentGeneric {
         List<Content> contentList = new ArrayList<>();
 
         for (Map<String, String> attribute : attributesList) {
-            String imageURL = attribute.get("url");
+            String imageURL = attribute.get("image");
             String title = attribute.get("title");
             ContentNASA content = new ContentNASA(title, imageURL);
             contentList.add(content);
