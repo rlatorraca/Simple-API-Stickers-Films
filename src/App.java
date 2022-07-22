@@ -33,7 +33,8 @@ public class App {
                 url = "https://api.nasa.gov/planetary/apod?api_key="+ PasswordFactory.getApiKey() +"&start_date=2022-06-12&end_date=2022-07-14";
                 extractor = new ExtractContentNASA() ;
             } else if(option.equalsIgnoreCase("l")){
-                url = "http://localhost:8080/languages";
+                //url = "http://localhost:8080/languages";
+                url = "https://programing-languages-api.herokuapp.com/languages";
                 extractor = new ExtractContentProgramingLanguages() ;
             }else {
                 continue;
